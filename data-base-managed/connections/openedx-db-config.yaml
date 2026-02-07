@@ -1,0 +1,31 @@
+# Database Connection Configuration for OpenEdX
+# Assessment: External Database Services Configuration
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openedx-db-config
+  namespace: openedx
+data:
+  # MySQL Configuration (AWS RDS)
+  MYSQL_HOST: "openedx-mysql.abc123.us-east-1.rds.amazonaws.com"
+  MYSQL_PORT: "3306"
+  MYSQL_DATABASE: "openedx"
+  MYSQL_USER: "openedx_user"
+  
+  # MongoDB Configuration
+  MONGODB_HOST: "mongodb+srv://cluster0.abc123.mongodb.net"
+  MONGODB_DATABASE: "openedx"
+  
+  # Redis Configuration
+  REDIS_HOST: "redis-12345.c256.us-east-1-2.ec2.cloud.redislabs.com"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  
+  # Elasticsearch Configuration
+  ELASTICSEARCH_HOST: "https://openedx-es.abc123.us-east-1.es.amazonaws.com"
+  ELASTICSEARCH_PORT: "9200"
+  
+  # Connection Pools
+  DB_MAX_CONNECTIONS: "20"
+  DB_CONNECTION_TIMEOUT: "30"

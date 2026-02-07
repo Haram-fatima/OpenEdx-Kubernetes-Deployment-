@@ -1,0 +1,69 @@
+# Tutor Plugins Configuration for Kubernetes Deployment
+
+plugins:
+  # Core plugins
+  tutor-k8s:
+    enabled: true
+    version: "latest"
+    
+  tutor-nginx:
+    enabled: true
+    version: "latest"
+    
+  # MFE (Micro Frontend) plugin
+  tutor-mfe:
+    enabled: true
+    version: "latest"
+    config:
+      mfe_list:
+        - learning
+        - account
+        - profile
+        - course-authoring
+        - communications
+        - gradebook
+      host: "apps.lms.52.24.17.217.nip.io"
+      port: 1999
+      
+  # Security plugins
+  tutor-waf:
+    enabled: true
+    version: "0.1.0"
+    
+  tutor-cdn:
+    enabled: true
+    version: "0.2.0"
+    
+  # Operations plugins
+  tutor-monitoring:
+    enabled: true
+    version: "latest"
+    
+  tutor-backup:
+    enabled: true
+    version: "0.3.0"
+    
+  tutor-autoscale:
+    enabled: true
+    version: "0.1.0"
+
+# Plugin installation order
+install_order:
+  - tutor-k8s
+  - tutor-nginx
+  - tutor-mfe
+  - tutor-waf
+  - tutor-cdn
+  - tutor-monitoring
+  - tutor-backup
+  - tutor-autoscale
+
+# Plugin dependencies
+dependencies:
+  tutor-mfe:
+    - tutor-nginx
+    - tutor-k8s
+  tutor-cdn:
+    - tutor-mfe
+  tutor-waf:
+    - tutor-mfe

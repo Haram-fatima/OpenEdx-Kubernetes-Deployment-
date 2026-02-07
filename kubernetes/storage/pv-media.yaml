@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openedx-media-pv
+  namespace: openedx
+  labels:
+    type: local
+    app: openedx
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/data/openedx/media"
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openedx-media-pvc
+  namespace: openedx
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 15Gi

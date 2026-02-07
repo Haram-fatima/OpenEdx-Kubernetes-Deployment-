@@ -1,0 +1,26 @@
+# Elasticsearch Configuration for OpenEdX
+cluster.name: openedx-cluster
+node.name: openedx-node-1
+network.host: 0.0.0.0
+http.port: 9200
+
+# Basic settings
+discovery.type: single-node
+xpack.security.enabled: false
+
+# OpenEdX indices
+indices:
+  courseware:
+    number_of_shards: 2
+    number_of_replicas: 1
+  forum:
+    number_of_shards: 2
+    number_of_replicas: 1
+
+# Performance
+bootstrap.memory_lock: true
+indices.memory.index_buffer_size: 30%
+
+# Health check
+http.cors.enabled: true
+http.cors.allow-origin: "*"

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: openedx-backup
+  namespace: openedx
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: alpine
+            command: ["sh", "-c", "echo 'Backup would run here'"]
+          restartPolicy: OnFailure

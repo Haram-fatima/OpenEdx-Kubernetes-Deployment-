@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cms
+  namespace: openedx
+  labels:
+    app: openedx
+    tier: backend
+    component: cms
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: openedx
+      component: cms
+  template:
+    metadata:
+      labels:
+        app: openedx
+        component: cms
+    spec:
+      containers:
+      - name: cms
+        image: overhangio/openedx:15.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8001
+          name: http
+        # Environment variables for External Databases
+        env:
+        - name: MYSQL_HOST
+          value: "openedx-mysql.c6c8mwv1l2ab.us-east-1.rds.amazonaws.com"
+        - name: MYSQL_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: "openedx"
+        - name: MONGODB_HOST
+          value: "mongodb+srv://cluster0.abc123.mongodb.net"
+        - name: REDIS_HOST
+          value: "redis-12345.c256.us-east-1-2.ec2.cloud.redislabs.com"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: ELASTICSEARCH_HOST
+          value: "https://openedx-es.abc123.us-east-1.es.amazonaws.com"
+        - name: ELASTICSEARCH_PORT
+          value: "9200"
+        - name: SERVICE_VARIANT
+          value: "cms"
+        # Resource limits for HPA
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        # Health checks for CMS
+        livenessProbe:
+          httpGet:
+            path: /heartbeat
+            port: 8001
+          initialDelaySeconds: 150
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /home/
+            port: 8001
+          initialDelaySeconds: 60
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        # Persistent storage
+        volumeMounts:
+        - name: media-storage
+          mountPath: /openedx/media
+          subPath: media
+        - name: staticfiles-storage
+          mountPath: /openedx/staticfiles
+          subPath: staticfiles
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+        - name: logs
+          mountPath: /var/log/openedx
+      volumes:
+      - name: media-storage
+        persistentVolumeClaim:
+          claimName: openedx-media-pvc
+      - name: staticfiles-storage
+        persistentVolumeClaim:
+          claimName: openedx-staticfiles-pvc
+      - name: nginx-config
+        configMap:
+          name: nginx-openedx-config
+      - name: logs
+        emptyDir: {}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
