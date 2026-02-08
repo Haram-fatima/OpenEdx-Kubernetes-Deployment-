@@ -10,34 +10,25 @@ Overview
 This repository contains a production-oriented deployment setup for OpenEdX LMS/CMS on a Kubernetes environment.
 It includes deployment configuration, architecture diagram, monitoring/logging support structure, rollback strategy, and automation scripts for easier deployment management.
 
+
 Key Features
 
 OpenEdX deployment on Kubernetes using Tutor
-
 Modular folder structure for manifests, scripts, monitoring, and recovery
-
 Architecture diagram included for infrastructure overview
-
 Logging evidence included through deployment logs
-
 Rollback and recovery structure for disaster recovery readiness
-
 Monitoring support structure (CloudWatch integration readiness)
-
 Production-ready design approach with scalability planning
+
 
 Repository Structure
 
 kubernetes/ → Kubernetes configuration and manifests
-
 scripts/ → Deployment automation scripts
-
 rollback/ → Rollback and recovery related files
-
 recover-file/ → Recovery and backup support files
-
 CloudWatch/ → Monitoring integration support
-
 deployment_*.log → Deployment evidence logs
 
 Architecture diagram.png → System architecture diagram
@@ -51,11 +42,13 @@ bash scripts/start.sh
 
 To verify running workloads and check pods:
 
-kubectl get pods -A
+kubectl get pods -A openedx
+
 
 Documentation
 
 This repository includes a full technical assessment document explaining architecture, design decisions, monitoring, security readiness, backup strategy, and deployment deliverables.
+
 
 Conclusion
 
