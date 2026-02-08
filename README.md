@@ -31,14 +31,12 @@ recover-file/ → Recovery and backup support files
 CloudWatch/ → Monitoring integration support
 
 
-Architecture diagram.png → System architecture diagram
 
 Quick Start
 
 To start deployment using the provided automation script:
 
 bash scripts/start.sh
-
 
 To verify running workloads and check pods:
 
