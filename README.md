@@ -29,7 +29,7 @@ scripts/ → Deployment automation scripts
 rollback/ → Rollback and recovery related files
 recover-file/ → Recovery and backup support files
 CloudWatch/ → Monitoring integration support
-deployment_*.log → Deployment evidence logs
+
 
 Architecture diagram.png → System architecture diagram
 
